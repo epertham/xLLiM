@@ -9,7 +9,7 @@ Kfoldcv_xllim = function(yapp,tapp,func,verb=1,Kfold=10,B=10,...){
     if (verb) print(paste0("Repetition ",b,"/",B))
     pred[[b]] = matrix(0,nrow=n,ncol=l)
     
-    fold <- createFolds(1:n,k=Kfold)
+    fold <- createFolds_xllim(1:n,k=Kfold)
     
     for (i in 1:length(fold)){
       if (verb) print(paste0("Fold ",i,"/",length(fold)))
