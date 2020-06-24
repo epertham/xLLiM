@@ -6,7 +6,7 @@ preprocess_data = function(tapp,yapp,in_K,...){
                     as.matrix(tapp[init.kmeans$cluster== k,]),family="mgaussian",...)
     mod <- glmnet(as.matrix(yapp[init.kmeans$cluster== k,]),
                   as.matrix(tapp[init.kmeans$cluster== k,]),family="mgaussian",
-                  lambda=cv$lambda.1se, ....)
+                  lambda=cv$lambda.1se, ...)
     for (l in 1:dim(tapp)[2]){
       ind = c(ind, which(mod$beta[[l]] !=0))
     }
