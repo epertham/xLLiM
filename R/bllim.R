@@ -115,10 +115,10 @@ strucSig <- list()
 if (verb) {print("Running BLLiM ... ")}
 ## this loop estimate a gllim model with each possible partition of (Sigma_k), from the more simple (each matrix is diagonal) to the more complex (each matrix is full)
 ## indPart index the partition of variables describing the structure of sigma 
-if (verb) pb <- progress_bar$new(total = nrow(partsSparseSig[[1]]))
+if (verb) {pb <- progress_bar$new(total = nrow(partsSparseSig[[1]]))}
 for (indPart in 1:nrow(partsSparseSig[[1]])){ 
   # if (verb) print(paste0("Model ",indPart))
-  if (verb) pb$tick()
+  if (verb) {pb$tick()}
   ## strucSig is a list of size K (for each groups of individuals)
   ## containing the partition of variables associated to cluster k 
   ## given by thresholding of sigma_k  
