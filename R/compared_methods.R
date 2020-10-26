@@ -75,7 +75,7 @@ svm_cv = function(trainx,trainy,testx,testy,kernel="linear",type="eps-regression
 ################### BLLiM #############
 bllim_cv <- function(tapp.train,yapp.train,tapp.test,yapp.test,K,verb=0,alpha, nfolds,...){
   prep_data <- preprocess_data(tapp.train,yapp.train,in_K=K,alpha = alpha, nfolds = nfolds)
-  mod <- bllim(t(tapp.train), t(yapp.train[,prep_data$selected.variables]), in_K=K,maxiter=100, in_r=list(R=prep_data$clusters),plot=FALSE,verb=FALSE)
+  mod <- bllim(t(tapp.train), t(yapp.train[,prep_data$selected.variables,drop=FALSE]), in_K=K,maxiter=100, in_r=list(R=prep_data$clusters),plot=FALSE,verb=FALSE)
   pred <- gllim_inverse_map(t(yapp.test[,prep_data$selected.variables,drop=FALSE]),mod)$x_exp
   return(t(pred))
 }

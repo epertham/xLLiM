@@ -7,6 +7,14 @@ preprocess_data = function(tapp,yapp,in_K,...){
     mod <- glmnet(as.matrix(yapp[init.kmeans$cluster== k,]),
                   as.matrix(tapp[init.kmeans$cluster== k,]),family="mgaussian",
                   lambda=cv$lambda.1se, ...)
+    indk <- sapply(mod$beta, function(x){which(x != 0)})
+    indk <- unique(indk)
+    if (length(indk) == 0){
+      nzero.lambda <- max(cv$lambda[cv$nzero > 0])
+      mod <- glmnet(as.matrix(yapp[init.kmeans$cluster== k,]),
+                    as.matrix(tapp[init.kmeans$cluster== k,]),family="mgaussian",
+                    lambda=nzero.lambda, ...)
+    }
     for (l in 1:dim(tapp)[2]){
       ind = c(ind, which(mod$beta[[l]] !=0))
     }
