@@ -2,7 +2,7 @@ preprocess_data = function(tapp,yapp,in_K,...){
   init.kmeans = kmeans(cbind(tapp,yapp),in_K)
   ind = c()
   for (k in 1:in_K){
-    print(paste0("k=",k))
+    # print(paste0("k=",k))
     
     cv <- cv.glmnet(as.matrix(yapp[init.kmeans$cluster== k,]),
                     as.matrix(tapp[init.kmeans$cluster== k,]),family="mgaussian",...)
@@ -18,7 +18,7 @@ preprocess_data = function(tapp,yapp,in_K,...){
     # print(paste0("length indk1=",length(indk)))
     
     if (length(indk) == 0){
-      print(paste0("nzero",c(min(cv$nzero),max(cv$nzero))))
+      # print(paste0("nzero",c(min(cv$nzero),max(cv$nzero))))
       mod <- glmnet(as.matrix(yapp[init.kmeans$cluster== k,]),
                     as.matrix(tapp[init.kmeans$cluster== k,]),family="mgaussian",
                     lambda=cv$lambda, ...)
