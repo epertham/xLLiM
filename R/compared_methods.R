@@ -6,13 +6,6 @@ mean_cv = function(trainx,trainy,testx,testy){
 }
 
 ######################### randomForest ##########################
-# randomForest_EP = function(trainx,trainy,testx,testy){
-#   norm_term = 1 #mean((testx)^2);
-#   mod = randomForest(x=trainy,y=trainx)
-#   pred = predict(mod,testy)
-#   #return(sqrt((pred-testx)^2/norm_term))   
-#   return(pred)
-# }
 randomForest_cv = function(trainx,trainy,testx,testy){
   pred = matrix(0,ncol=ncol(trainx),nrow=nrow(testx))
   for (k in 1:ncol(trainx)){
@@ -21,16 +14,6 @@ randomForest_cv = function(trainx,trainy,testx,testy){
   } 
   return(pred)
 }
-
-# library(ranger)
-# ranger_EPm = function(trainx,trainy,testx,testy){
-#   pred = matrix(0,ncol=ncol(trainx),nrow=nrow(testx))
-#   for (k in 1:ncol(trainx)){
-#     mod = ranger(y ~ .,data=data.frame(y=trainx[,k],trainy))
-#     pred[,k] = predict(mod,data.frame(testy))$predictions
-#   } 
-#   return(pred)
-# }
 
 ################### LASSO #############
 lasso_cv <- function(trainx,trainy,testx,testy){
@@ -50,17 +33,6 @@ mars_cv = function(trainx,trainy,testx,testy){
 }
 
 ############################## svm #############################
-
-# svm_EP = function(trainx,trainy,testx,testy,kernel="linear",type="eps-regression"){
-#   norm_term = 1 #mean((testx)^2);
-#   tmp = data.frame(trainy,x=trainx)
-#   mod = svm(x ~ .,data=tmp,kernel=kernel,type=type)
-#   testy = data.frame(testy)
-#   pred = predict(mod,testy)
-#   #return(sqrt((pred-testx)^2/norm_term))   
-#   return(pred)
-# }
-
 svm_cv = function(trainx,trainy,testx,testy,kernel="linear",type="eps-regression"){
   pred = matrix(0,ncol=ncol(trainx),nrow=nrow(testx))
   for (k in 1:ncol(trainx)){
