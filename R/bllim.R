@@ -40,8 +40,8 @@ bllim = function(tapp,yapp,in_K,in_r=NULL,ninit=20,maxiter=100,verb=0,in_theta=N
   
   
   # % ==========================EM initialization==============================
-  L=nrow(tapp)
-  D = nrow(yapp) ; N = ncol(yapp);
+  L <- nrow(tapp)
+  D <- nrow(yapp) ; N = ncol(yapp);
   
   if (is.null(in_r)){
     ## Step 1 A)
@@ -79,7 +79,7 @@ bllim = function(tapp,yapp,in_K,in_r=NULL,ninit=20,maxiter=100,verb=0,in_theta=N
   ## STEP 2 B) we compute full sigma_k (the covariance associated to the noise) 
   ## for each group of individuals                             
   listKfullSigma = lapply(1:in_K,function(dum){
-    tmp = cov(t(yapp[,affecIndModInit==dum, drop = FALSE])) -
+    tmp = cov(t(yapp[,affecIndModInit == dum, drop = FALSE])) -
       matrix(modInit$A[,,dum], ncol = L)%*%modInit$Gamma[,,dum]%*%t(matrix(modInit$A[,,dum],ncol = L))
     return(tmp )
   })
