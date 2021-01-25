@@ -17,11 +17,10 @@ randomForest_cv = function(trainx,trainy,testx,testy){
 
 ################### LASSO #############
 lasso_cv <- function(trainx,trainy,testx,testy){
-  pred <-  matrix(0,ncol=ncol(trainx),nrow=nrow(testx))
   cv <- cv.glmnet(as.matrix(trainy),as.matrix(trainx),family="mgaussian")
   mod <- glmnet(as.matrix(trainy),as.matrix(trainx),family="mgaussian",lambda=cv$lambda.min)
   pred <- predict(mod,as.matrix(testy))
-  return(pred)
+  return(pred[,,1])
 }
 
 ####################### spline regression #######################
@@ -45,9 +44,9 @@ svm_cv = function(trainx,trainy,testx,testy,kernel="linear",type="eps-regression
 }
 
 ################### BLLiM #############
-bllim_cv <- function(tapp.train,yapp.train,tapp.test,yapp.test,K,verb=0,alpha, nfolds,...){
-  prep_data <- preprocess_data(tapp.train,yapp.train,in_K=K,alpha = alpha, nfolds = nfolds)
-  mod <- bllim(t(tapp.train), t(yapp.train[,prep_data$selected.variables,drop=FALSE]), in_K=K,maxiter=100, in_r=list(R=prep_data$clusters),plot=FALSE,verb=FALSE)
-  pred <- gllim_inverse_map(t(yapp.test[,prep_data$selected.variables,drop=FALSE]),mod)$x_exp
+bllim_cv <- function(trainx,trainy,testx,testy,K,verb=0,alpha, nfolds,...){
+  prep_data <- preprocess_data(trainx,trainy,in_K=K,alpha = alpha, nfolds = nfolds)
+  mod <- bllim(t(trainx), t(trainy[,prep_data$selected.variables,drop=FALSE]), in_K=K,maxiter=100, in_r=list(R=prep_data$clusters),plot=FALSE,verb=FALSE)
+  pred <- gllim_inverse_map(t(testy[,prep_data$selected.variables,drop=FALSE]),mod)$x_exp
   return(t(pred))
 }
