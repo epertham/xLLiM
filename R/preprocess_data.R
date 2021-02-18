@@ -17,13 +17,15 @@ preprocess_data = function(tapp,yapp,in_K,...){
     }
     indk <- unique(indk)
     
+    print(paste0("nb sel",length(indk)))
+    
     if (length(indk) == 0){
       mod <- glmnet(as.matrix(yapp[init.kmeans$cluster== k,]),
                     as.matrix(tapp[init.kmeans$cluster== k,]),family="mgaussian",
                     lambda=cv$lambda, ...)
       mod <- glmnet(as.matrix(yapp[init.kmeans$cluster== k,]),
                     as.matrix(tapp[init.kmeans$cluster== k,]),family="mgaussian",
-                    lambda=max(cv$lambda[mod$dfmat[1,] >= L]), ...)
+                    lambda=max(cv$lambda[mod$dfmat[1,] >= 1]), ...)
     }
     
     for (l in 1:dim(tapp)[2]){
