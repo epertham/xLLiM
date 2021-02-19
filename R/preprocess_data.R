@@ -17,8 +17,6 @@ preprocess_data = function(tapp,yapp,in_K,...){
     }
     indk <- unique(indk)
     
-    print(paste0("nb sel",length(indk)))
-    
     if (length(indk) == 0){
       mod <- glmnet(as.matrix(yapp[init.kmeans$cluster== k,]),
                     as.matrix(tapp[init.kmeans$cluster== k,]),family="mgaussian",
