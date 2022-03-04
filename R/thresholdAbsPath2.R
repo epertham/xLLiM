@@ -1,7 +1,7 @@
 thresholdAbsSPath2 = function (Sabs) {
   labelsPath <- list()
   valThres <- Sabs[upper.tri(Sabs)]
-  orderValue <- valThres[order(valThres)]
+  orderValue <- c(0,valThres[order(valThres)])
   labelsPath <- lapply(orderValue,function(lambdaR){
     E <- Sabs
     E[Sabs > lambdaR] <- 1
