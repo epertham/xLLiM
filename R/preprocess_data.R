@@ -3,7 +3,7 @@ preprocess_data = function(tapp,yapp,in_K,...){
   init.kmeans = kmeans(cbind(tapp,yapp),in_K)
   ind = c()
   
-  probs <- kmeans.probs(cbind(tapp,yapp), init_kmeans$centers)
+  probs <- kmeans_probs(cbind(tapp,yapp), init.kmeans$centers)
   for (k in 1:in_K){
     
     cv <- cv.glmnet(as.matrix(yapp[init.kmeans$cluster== k,]),
