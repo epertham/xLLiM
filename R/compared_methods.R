@@ -50,3 +50,30 @@ bllim_cv <- function(trainx,trainy,testx,testy,K,verb=0,alpha, nfolds,...){
   pred <- gllim_inverse_map(t(testy[,prep_data$selected.variables,drop=FALSE]),mod)$x_exp
   return(t(pred))
 }
+
+
+####################### spls regression #######################
+mixOmics_cv = function(trainx,trainy,testx,testy){
+  X <- trainy # omics data 
+  Y <- trainx # pheno data
+  # set range of test values for number of variables to use from trainy dataframe
+  list.keepX <- c(seq(20, 50, 5))
+  # set range of test values for number of variables to use from Y dataframe
+  list.keepY <- c(ncol(Y)) 
+  # tune parameters 
+  tune.spls.res <- tune.spls(X, Y, ncomp = 2:6,
+                             test.keepX = list.keepX,
+                             test.keepY = list.keepY,
+                             nrepeat = 1, folds = 10, # use 10 folds
+                             mode = 'regression', measure = 'cor') 
+  optimal.keepX <- tune.spls.res$choice.keepX # extract optimal number of variables for X dataframe
+  optimal.keepY <- tune.spls.res$choice.keepY # extract optimal number of variables for Y datafram
+  optimal.ncomp <-  length(optimal.keepX) # extract optimal number of components
+  
+  # use all tuned values from above
+  final.spls.res <- spls(X, Y, ncomp = optimal.ncomp, 
+                         keepX = optimal.keepX,
+                         keepY = optimal.keepY,
+                         mode = "regression") # explanitory approach being used
+  return(predict(final.spls.res  , newdata=testy)$predict[,,optimal.ncomp])
+}
