@@ -13,6 +13,6 @@ library(xLLiM)
 # Or the development version from GitHub
 ```
 # install.packages("devtools")
-devtools::install_github("epertham/xLLiM", branch = "devel")
+devtools::install_github("epertham/xLLiM", ref = "devel")
 library(xLLiM)
 ```
