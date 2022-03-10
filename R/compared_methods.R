@@ -77,3 +77,25 @@ mixOmics_cv = function(trainx,trainy,testx,testy){
                          mode = "regression") # explanitory approach being used
   return(predict(final.spls.res  , newdata=testy)$predict[,,optimal.ncomp])
 }
+
+
+####################### gllim #######################
+
+gllim_EP = function(trainx,trainy,testx,testy,K,Lw=0){
+  
+  D = nrow(trainy)
+  n = length(trainx)
+  Lt = ncol(trainx)
+    
+  ## Run the final model, with the selected values of K and Lw 
+  mod = gllim(trainx,trainy,in_K=K,Lw=Lw,cstr=list(Sigma="d"),verb=0)
+  for (i in 1:10){
+    tmp = gllim(trainx,trainy,in_K=K,Lw=Lw,cstr=list(Sigma="d"),verb=0)
+    if (tmp$LLf > mod$LLf) {mod = tmp}
+  }
+  
+  ## Compute prediction accuracy through root mean square error
+  pred = gllim_inverse_map(testy,mod,verb=0)$x_exp ## compute prediction 
+  
+  return((pred[1:Lt,]-testx)^2)
+}
