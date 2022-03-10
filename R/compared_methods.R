@@ -81,7 +81,7 @@ mixOmics_cv = function(trainx,trainy,testx,testy){
 
 ####################### gllim #######################
 
-gllim_EP = function(trainx,trainy,testx,testy,K,Lw=0){
+gllim_cv = function(trainx,trainy,testx,testy,K,Lw=0){
   
   D = nrow(trainy)
   n = length(trainx)
