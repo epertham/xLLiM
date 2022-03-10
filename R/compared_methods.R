@@ -87,15 +87,14 @@ gllim_cv = function(trainx,trainy,testx,testy,K,Lw=0){
   n = length(trainx)
   Lt = ncol(trainx)
     
+  prep_data <- preprocess_data(trainx,trainy,in_K=K,alpha = alpha, nfolds = nfolds)
+  
   ## Run the final model, with the selected values of K and Lw 
-  mod = gllim(trainx,trainy,in_K=K,Lw=Lw,cstr=list(Sigma="d"),verb=0)
-  for (i in 1:10){
-    tmp = gllim(trainx,trainy,in_K=K,Lw=Lw,cstr=list(Sigma="d"),verb=0)
-    if (tmp$LLf > mod$LLf) {mod = tmp}
-  }
+  mod = gllim(t(trainx),t(trainy[,prep_data$selected.variables,drop=FALSE]),in_K=K,Lw=Lw,
+              cstr=list(Sigma="d"), in_r=list(R=prep_data$clusters),verb=0)
   
   ## Compute prediction accuracy through root mean square error
-  pred = gllim_inverse_map(testy,mod,verb=0)$x_exp ## compute prediction 
+  pred = gllim_inverse_map(t(testy[,prep_data$selected.variables,drop=FALSE]),mod,verb=0)$x_exp ## compute prediction 
   
   return(pred[1:Lt,])
 }
