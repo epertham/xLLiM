@@ -7,7 +7,7 @@ preprocess_data = function(tapp,yapp,in_K,...){
   for (k in 1:in_K){
     
     cv <- cv.glmnet(as.matrix(yapp[init.kmeans$cluster== k,]),
-                    as.matrix(tapp[init.kmeans$cluster== k,]), family="mgaussian",...)
+                    as.matrix(tapp[init.kmeans$cluster== k,]), family="mgaussian",grouped=FALSE,...)
     
     lambda <- min(cv$lambda.1se, max(cv$lambda[cv$nzero >= L]))
     mod <- glmnet(as.matrix(yapp[init.kmeans$cluster== k,]),

@@ -81,20 +81,36 @@ mixOmics_cv = function(trainx,trainy,testx,testy){
 
 ####################### gllim #######################
 
-gllim_cv = function(trainx,trainy,testx,testy,K,Lw=0){
-  
-  D = nrow(trainy)
-  n = length(trainx)
+gllim_cv <- function(trainx,trainy,testx,testy,K,Lw=0,verb=0,alpha, nfolds,...){
   Lt = ncol(trainx)
-    
   prep_data <- preprocess_data(trainx,trainy,in_K=K,alpha = alpha, nfolds = nfolds)
-  
-  ## Run the final model, with the selected values of K and Lw 
-  mod = gllim(t(trainx),t(trainy[,prep_data$selected.variables,drop=FALSE]),in_K=K,Lw=Lw,
-              cstr=list(Sigma="d"), in_r=list(R=prep_data$clusters),verb=0)
-  
-  ## Compute prediction accuracy through root mean square error
-  pred = gllim_inverse_map(t(testy[,prep_data$selected.variables,drop=FALSE]),mod,verb=0)$x_exp ## compute prediction 
-  
-  return(pred[1:Lt,])
+  mod <- gllim(t(trainx), t(trainy[,prep_data$selected.variables,drop=FALSE]), in_K=K,Lw=Lw,cstr=list(Sigma="d"), 
+               in_r=list(R=prep_data$clusters),verb=FALSE)
+  pred <- gllim_inverse_map(t(testy[,prep_data$selected.variables,drop=FALSE]),mod)$x_exp
+  return(t(pred[1:Lt,]))
 }
+
+# gllim_cv = function(trainx,trainy,testx,testy,K,Lw=0,nfolds,...){
+#   
+#   D = nrow(trainy)
+#   n = length(trainx)
+#   Lt = ncol(trainx)
+#     
+#   prep_data <- preprocess_data(trainx,trainy,in_K=K,alpha = alpha, nfolds = nfolds)
+#   
+#   ## Run the final model, with the selected values of K and Lw 
+#   mod = gllim(t(trainx),t(trainy[,prep_data$selected.variables,drop=FALSE]),in_K=K,Lw=Lw,
+#               cstr=list(Sigma="d"), in_r=list(R=prep_data$clusters),verb=0)
+#   
+#   ## Compute prediction accuracy through root mean square error
+#   pred = gllim_inverse_map(t(testy[,prep_data$selected.variables,drop=FALSE]),mod,verb=0)$x_exp ## compute prediction 
+#   
+#   return(pred[1:Lt,])
+# }
+
+devtools::install_github("epertham/xLLiM", ref = "devel",
+                         force=TRUE,build=FALSE)
+library(xLLiM)
+p.gllim <- Kfoldcv_xllim(yapp,tapp,func = gllim_cv, K=Kbic,Kfold=10,B=1,verb = FALSE,
+                         nfolds = 50,alpha = 0.7)
+
