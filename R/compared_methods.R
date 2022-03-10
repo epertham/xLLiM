@@ -97,5 +97,5 @@ gllim_cv = function(trainx,trainy,testx,testy,K,Lw=0){
   ## Compute prediction accuracy through root mean square error
   pred = gllim_inverse_map(testy,mod,verb=0)$x_exp ## compute prediction 
   
-  return((pred[1:Lt,]-testx)^2)
+  return(pred[1:Lt,])
 }
