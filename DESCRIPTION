@@ -8,6 +8,7 @@ Description: Provides a tool for non linear mapping (non linear regression) usin
 License: GPL (>= 2)
 Depends:
 Imports: MASS,abind,corpcor,Matrix,igraph,capushe,glmnet,randomForest,e1071,mda,progress,mixOmics
+biocViews: Software
 Suggests: shock
 NeedsCompilation: no
 Packaged: 2022-03-09 10:00:06 UTC; Emeline
