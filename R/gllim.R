@@ -405,7 +405,7 @@ remove_empty_clusters= function(th,cstr,ec){
   th$b=th$b[,ec];
   th$Sigma=th$Sigma[,,ec]; 
   }
-  return(list(theta=th,cstr=cstr))
+  return(list(th=th,cstr=cstr))
 }
 
 # % ==========================EM initialization==============================
@@ -425,7 +425,7 @@ if(!is.null(in_theta)) {
     r = tmp$r ;
     ec = tmp$ec ;
     tmp = remove_empty_clusters(theta,cstr,ec);
-    theta = tmp$theta ;
+    theta = tmp$th ;
     cstr = tmp$cstr ;
 	tmp = ExpectationW(tapp,yapp,theta,verb);
 	muw = tmp$muw
