@@ -66,8 +66,8 @@ mixOmics_cv = function(trainx,trainy,testx,testy){
                              test.keepY = list.keepY,
                              nrepeat = 1, folds = 10, # use 10 folds
                              mode = 'regression', measure = 'cor') 
-  optimal.keepX <- mixOmics::tune.spls.res$choice.keepX # extract optimal number of variables for X dataframe
-  optimal.keepY <- mixOmics::tune.spls.res$choice.keepY # extract optimal number of variables for Y datafram
+  optimal.keepX <- tune.spls.res$choice.keepX # extract optimal number of variables for X dataframe
+  optimal.keepY <- tune.spls.res$choice.keepY # extract optimal number of variables for Y datafram
   optimal.ncomp <-  length(optimal.keepX) # extract optimal number of components
   
   # use all tuned values from above
