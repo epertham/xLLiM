@@ -379,35 +379,33 @@ Maximization = function(tapp,yapp,r,muw,Sw,cstr,verb,model){
 return(th)
 }
 
-remove_empty_clusters= function(th1,cstr1,ec){
-    th=th1;
-    cstr=cstr1;
-    if(sum(ec) != length(ec))
-        {if( !is.null(cstr$ct) && !is.character(cstr$ct))
-            cstr$ct=cstr$ct[,ec];  
-        if(!is.null(cstr$cw) && !is.character(cstr$cw))
-            cstr$cw=cstr$cw[,ec];    
-        if(!is.null(cstr$Gammat) && !is.character(cstr$Gammat))
-            cstr$Gammat=cstr$Gammat[,,ec];
-        if(!is.null(cstr$Gammaw) && !is.character(cstr$Gammaw))
-            cstr$Gammaw=cstr$Gammaw[,,ec];    
-        if(!is.null(cstr$pi) && !is.character(cstr$pi))
-            cstr$pi=cstr$pi[,ec];       
-        if(!is.null(cstr$A) && !is.character(cstr$A))
-            cstr$A=cstr$A[,,ec];
-        if(!is.null(cstr$b) && !is.character(cstr$b))
-            cstr$b=cstr$b[,ec];     
-        if(!is.null(cstr$Sigma) && !is.character(cstr$Sigma))
-            cstr$Sigma=cstr$Sigma[,,ec];        
-
-        th$c=th$c[,ec];
-        th$Gamma=th$Gamma[,,ec];
-        th$pi=th$pi[ec];
-        th$A=th$A[,,ec];
-        th$b=th$b[,ec];
-        th$Sigma=th$Sigma[,,ec]; 
-    }
-return(list(th=th,cstr=cstr))
+remove_empty_clusters= function(th,cstr,ec){
+  if(sum(ec) != length(ec))
+  {if( !is.null(cstr$ct) && !is.character(cstr$ct))
+    cstr$ct=cstr$ct[,ec];  
+  if(!is.null(cstr$cw) && !is.character(cstr$cw))
+    cstr$cw=cstr$cw[,ec];    
+  if(!is.null(cstr$Gammat) && !is.character(cstr$Gammat))
+    cstr$Gammat=cstr$Gammat[,,ec];
+  if(!is.null(cstr$Gammaw) && !is.character(cstr$Gammaw))
+    cstr$Gammaw=cstr$Gammaw[,,ec];    
+  if(!is.null(cstr$pi) && !is.character(cstr$pi))
+    cstr$pi=cstr$pi[,ec];       
+  if(!is.null(cstr$A) && !is.character(cstr$A))
+    cstr$A=cstr$A[,,ec];
+  if(!is.null(cstr$b) && !is.character(cstr$b))
+    cstr$b=cstr$b[,ec];     
+  if(!is.null(cstr$Sigma) && !is.character(cstr$Sigma))
+    cstr$Sigma=cstr$Sigma[,,ec];        
+  
+  th$c=th$c[,ec];
+  th$Gamma=th$Gamma[,,ec];
+  th$pi=th$pi[ec];
+  th$A=th$A[,,ec];
+  th$b=th$b[,ec];
+  th$Sigma=th$Sigma[,,ec]; 
+  }
+  return(list(th=th,cstr=cstr))
 }
 
 # % ==========================EM initialization==============================
@@ -427,7 +425,7 @@ if(!is.null(in_theta)) {
     r = tmp$r ;
     ec = tmp$ec ;
     tmp = remove_empty_clusters(theta,cstr,ec);
-    theta = tmp$theta ;
+    theta = tmp$th ;
     cstr = tmp$cstr ;
 	tmp = ExpectationW(tapp,yapp,theta,verb);
 	muw = tmp$muw

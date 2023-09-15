@@ -2,6 +2,8 @@ preprocess_data = function(tapp,yapp,in_K,...){
   L <- ncol(tapp)
   init.kmeans = kmeans(cbind(tapp,yapp),in_K)
   ind = c()
+  
+  probs <- kmeans_probs(cbind(tapp,yapp), init.kmeans$centers)
   for (k in 1:in_K){
     
     cv <- cv.glmnet(as.matrix(yapp[init.kmeans$cluster== k,]),
@@ -34,7 +36,7 @@ preprocess_data = function(tapp,yapp,in_K,...){
   if (in_K == 1) {
     clusters <- data.frame(cluster1 = init.kmeans$cluster)
   } else {
-    clusters <- model.matrix(~ -1 + factor(init.kmeans$cluster))
+    clusters <- probs
   }
   colnames(clusters) <- paste0("cluster",1:ncol(clusters)) 
   return(list(selected.variables=sort(ind),clusters=clusters))
