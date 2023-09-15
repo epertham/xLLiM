@@ -5,3 +5,10 @@
 xLLiM.Rproj
 .DS_Store
 R/.Rhistory
+R/.DS_Store
+R/.Rapp.history
+data/.DS_Store
+man/.Rhistory
+man/.DS_Store
+man/.Rapp.history
+.Rbuildignore
