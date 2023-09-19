@@ -9,5 +9,6 @@ License: GPL (>= 2)
 Depends:
 Imports: MASS,abind,corpcor,Matrix,igraph,capushe,glmnet,randomForest,e1071,mda,progress,mixOmics
 Suggests: shock
+biocViews: mixOmics
 NeedsCompilation: no
 Packaged: 2023-09-12 10:00:00 UTC; Emeline
